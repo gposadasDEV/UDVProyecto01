@@ -8,8 +8,11 @@ public class ControlCuadrado : MonoBehaviour
     HelloWorld hw;
     void Start()
     {
-        hw = hw.GetComponent<HelloWorld>();
-        hw.Saludar();
+        hw = GetComponent<HelloWorld>();
+        if (hw != null)
+        { hw.Saludar(); }
+        else { Debug.Log("No se encuentra archivo"); };
+        
     }
 
     // Update is called once per frame
