@@ -6,11 +6,10 @@ public class Movimiento : MonoBehaviour
 {
     [SerializeField] private float rapidezCaminar = 4f;
     //[SerializeField] private float velInicialDeSalto = 5.0f;
-    [SerializeField] private float alturaSaltoExtra = 1.0f;
-    [SerializeField] private float numeroSaltosExtra = 1.0f;
+    [SerializeField] private float LimiteSaltos = 1.0f;
     [SerializeField] private float alturaSalto = 2.0f;
     [SerializeField] private LayerMask capasSalto;
-    private float SaltosHechos = 0;
+    private float CantidadSaltos = 0;
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
     void Start()
@@ -22,7 +21,7 @@ public class Movimiento : MonoBehaviour
  
     void Update()
     {
-        ColisionSuelo();
+        tocoSuelo();
     }
 
     public void MoverseEnX(float movimientoX)
@@ -38,11 +37,11 @@ public class Movimiento : MonoBehaviour
         {
             // Si no estoy tocando las capas, "no hacer salto"
             if (!boxCollider.IsTouchingLayers(capasSalto))
-        {
-                if (SaltosHechos < numeroSaltosExtra)
+            {
+                if (CantidadSaltos < LimiteSaltos)
                 {
-                    rb.velocity = new Vector2(rb.velocity.x, Mathf.Sqrt((-2 * gravedad * alturaSaltoExtra)));
-                    SaltosHechos += 1;
+                    rb.velocity = new Vector2(rb.velocity.x, Mathf.Sqrt((-2 * gravedad * alturaSalto)));
+                    CantidadSaltos += 1;
                 }
             }
             else 
@@ -54,16 +53,13 @@ public class Movimiento : MonoBehaviour
         }
        
     }
-    public void VoltearTransform(float movimientoX)
-    {
-        transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x) * Mathf.Sign(movimientoX), transform.localScale.y);
-    }
+ 
 
-    public void ColisionSuelo()
+    public void tocoSuelo()
     {
         if (boxCollider.IsTouchingLayers(capasSalto))
         {
-            SaltosHechos = 0;
+            CantidadSaltos = 0;
         }
     }
 }
